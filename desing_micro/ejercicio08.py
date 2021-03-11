@@ -1,4 +1,7 @@
 
+# Escriba un programa que de cómo resultado un archivo de texto con una
+# matriz que muestre todas las combinaciones de multiplicación de los
+# número 1 hasta 10.
 
 def run():
 

@@ -1,4 +1,7 @@
 
+# Escriba un programa que lea un número entero ingresado por el usuario.
+# Y luego, muestre un mensaje que indique si el número entero es par o
+# impar.
 
 def num():
 	number = int(input('Ingrese un numero: '))
