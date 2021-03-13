@@ -28,7 +28,7 @@ def menu(sms):
 		menu =  str(input(sms))
 		ctrl = action(menu)
 		if menu == 'e':
-			print("\nthanks you and good morning!")
+			print("\nThanks you and good morning!")
 			quit()
 
 
@@ -40,20 +40,20 @@ def run ():
 Welcome a this travel!
 
 press  [l] for start launching
-press  [e] for finishing program\n\n\r---> '''
+press  [e] for finish program\n\n\r---> '''
 	menu(sms)
 	sms= '''
-press  [a] for down
-press  [e] for finishing program\n\n\r---> '''
+press  [a] for landing
+press  [e] for finish program\n\n\r---> '''
 	menu(sms)
 	sms='''
-press  [f] for flag
-press  [e] for finishing program\n\n\r---> '''
+press  [f] for use the flag
+press  [e] for finish program\n\n\r---> '''
 	menu(sms)
 	sms='''
-press  [d] for  alien die
-press  [p] for peace with alien
-press  [e] for finishing program\n\n\r---> '''
+press  [d] for alien Kill
+press  [p] for peace with aliens
+press  [e] for finish program\n\n\r---> '''
 	menu(sms)
 
 
