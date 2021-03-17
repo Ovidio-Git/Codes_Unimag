@@ -1,8 +1,7 @@
-import numpy as np # funcion para poder implemetar la funcion logaritmo
+import numpy as np # funcion para implemetar el  logaritmo y el euler
 
 
 def run():
-
 	print('por favor ingrese 2 numeros')
 	a = int(input('numero a -> '))
 	b = int(input('numero b -> '))
@@ -14,6 +13,7 @@ def run():
 	print(f'6. El resultado de elevar {a} a la {b} es {a**b}')
 	print(f'7. El resultado de euler a la {a} es {np.exp(a)}')
 	print(f'8. El resultado de la raiz {b} de {a} es {a**1/b} ')
+
 
 if __name__ == '__main__':
 	run()
