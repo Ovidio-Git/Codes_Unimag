@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 
 # Creamos una nueva instancia llamada app
 app = Flask(__name__)
@@ -11,7 +11,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-	return "Hello world, i launching a web page"
+	user_ip = request.remote_addr
+	return f"Hello world, i launching a web page your IP is {user_ip}"
 
 if __name__ == '__main__':
 	app.run()
