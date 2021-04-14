@@ -15,48 +15,57 @@ Steps for TCP server communication
 #include <sys/socket.h> //for socket(), connect(), and blind()
 #include <netinet/in.h>
 
-#define  MAXPENDING 5
+#define  MAXPENDING 10  // queue max connection permited 
 
 
 int main(){
     
     int socket_id = 0;
     unsigned int length = 0;
+    char Bind = 0;
+    char Listen = 0;
+    unsigned int address_length;
+    int client = 0;
+    
+
+    // Server parameters   
+    struct sockaddr_in serverr;
+    serverr.sin_family      = AF_INET ;  // protocol
+    serverr.sin_addr.s_addr = inet_addr("127.0.0.1"); // server ip
+    serverr.sin_port        = htons(19900); // connection port
+    // htons(port number) convert to 6 bit format
+    // the funtion bind merge socket with serverr
     
     socket_id = socket(PF_INET, SOCK_STREAM, 0);
     if (socket_id < 0){
-        printf("[ERROR]: socket failed");
+        perror("[ERROR] Socket");
         return(-1);
     }
-
-    // Server parameters   AWS IP Public= 18.222.148.97
-    struct sockaddr_in server;
-    server.sin_family      = AF_INET ;  // protocol
-    server.sin_addr.s_addr = inet_addr("18.222.148.97"); // server ip
-    server.sin_port        = htons(19900); // connection port
-    // htons(port number) convert to 6 bit format 
-
-    // Server client parameters   
-    struct sockaddr_in serverclient;
-    serverclient.sin_family      = AF_INET ;  // protocol
-    serverclient.sin_addr.s_addr = inet_addr("18.222.148.97"); // server ip
-    serverclient.sin_port        = htons(19900); // connection port
-    // htons(port number) convert to 6 bit format
-
-    Bind = bind(socket_id, (struct sockaddr*)&server, sizeof(server))
+    
+   
+    Bind = bind(socket_id, (struct sockaddr*)&serverr, sizeof(serverr));
+    
     if (Bind < 0){
-        printf("[ERROR]: bind failed");
-        return(-1);
+        perror("[ERROR] Bind");
+        return (-1);
     }
 
-    Listen = listen(socket_id, MAXPENDING)
-    if (Liste < 0){
-        printf("[ERROR]: listen failed");
+    printf("[LISTENING]");
+
+    Listen = listen(socket_id, MAXPENDING);
+    if (Listen < 0){
+        perror("[ERROR] Listen");
         return(-1);
     }
-    while(1)
-    {
+     printf("[PUIS]");
+    
+    // Server client parameters   
+    struct sockaddr_in serverClient;
+    client = accept(socket_id, (struct sockaddr*)&serverClient, sizeof(serverClient));
+    
+    printf("Recibi una conexione en %d", client);
+    close(socket_id);
+   
 
-    }
     return(0); 
 }
