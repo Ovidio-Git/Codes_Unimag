@@ -64,9 +64,10 @@ int main(){
   
 
 
-    aux[5]= ntohl( aux[4] ); // Time-stamp seconds.
-    //    La función htonl() convierte el entero largo sin signo hostlong desde el  orden  de  bytes
-    //    del host al de la red.
+    aux[5]= ntohl( aux[4] );
+    // convierte una cadena de formato de orden de byte de la red al 
+    // orden de bytes del host
+    
     
   
 
