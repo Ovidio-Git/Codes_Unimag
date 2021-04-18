@@ -45,17 +45,16 @@ int main(){
     send(socket_id, msg, sizeof(msg), 0); 
     printf("[+] Data send\r\n");
 
-    // LOS ULTIMOS 32 bits  contienen los segundos 
+    // los penultimos 32 bits  contienen los segundos 
     // de la marca de tiempo cuando el paquete salió del servidor NTP.
     // El número de segundos corresponde a los segundos transcurridos desde 1900.
-    // los ultimos 8 bites del buffer son los que forman los segundo
-    //Estos dos campos contienen los segundos de la marca de tiempo cuando el paquete salió del servidor NTP.
-
+    
     recv(socket_id,buffer,sizeof(buffer),0);
     printf("[+] Data receive\r\n");
     
 
-    // convirtiendo las cadenas de 8 bytes a una de 32 bytes 
+    // convirtiendo las cadenas de 8 bytes a una de 32 bytes para formar el numero correspondiente
+    // a los segundos
     
     aux[1] = buffer[43]<<24;
     aux[2] = buffer[42]<<16;
@@ -63,13 +62,13 @@ int main(){
     aux[4] = aux[1]+ aux[2] + aux[3] + buffer[40];
     
   
-    // printf("summi %ld \n\r", aux[4]);
+
 
     aux[5]= ntohl( aux[4] ); // Time-stamp seconds.
     //    La función htonl() convierte el entero largo sin signo hostlong desde el  orden  de  bytes
     //    del host al de la red.
     
-    // printf("summi %ld \n\r", aux[5]);
+  
 
     aux[5] = aux[5] - Seventy_years; // le restamos los 70 años a la fecha 
     
