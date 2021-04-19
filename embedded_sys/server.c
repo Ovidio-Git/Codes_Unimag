@@ -17,55 +17,85 @@ Steps for TCP server communication
 
 #define  MAXPENDING 10  // queue max connection permited 
 
+void TCPClient( int socket_client);
 
 int main(){
     
-    int socket_id = 0;
-    unsigned int length = 0;
-    char Bind = 0;
-    char Listen = 0;
-    unsigned int address_length;
-    int client = 0;
-    
+    int socket_server = 0;
+    int socket_client = 0;
+    char Bind, Listen = 0;
+    struct sockaddr_in server_server;
+    struct sockaddr_in server_client;
+
+    socket_server = socket(PF_INET, SOCK_STREAM, 0);
+    if (socket_server < 0){
+        perror("[ERROR] Socket");
+        return(-1);
+    }
+    printf("[+] Socket");
+       
 
     // Server parameters   
-    struct sockaddr_in serverr;
     serverr.sin_family      = AF_INET ;  // protocol
     serverr.sin_addr.s_addr = inet_addr("127.0.0.1"); // server ip
     serverr.sin_port        = htons(19900); // connection port
     // htons(port number) convert to 6 bit format
     // the funtion bind merge socket with serverr
-    
-    socket_id = socket(PF_INET, SOCK_STREAM, 0);
-    if (socket_id < 0){
-        perror("[ERROR] Socket");
-        return(-1);
-    }
-    
-   
-    Bind = bind(socket_id, (struct sockaddr*)&serverr, sizeof(serverr));
-    
+
+
+    Bind = bind(socket_server, (struct sockaddr*)&server_server, sizeof(server_server));
     if (Bind < 0){
         perror("[ERROR] Bind");
         return (-1);
     }
+    printf("[+] Bind");
 
-    printf("[LISTENING]");
 
-    Listen = listen(socket_id, MAXPENDING);
+    Listen = listen(socket_server, MAXPENDING);
     if (Listen < 0){
         perror("[ERROR] Listen");
         return(-1);
     }
-     printf("[PUIS]");
-    
-    // Server client parameters   
-    struct sockaddr_in serverClient;
-    client = accept(socket_id, (struct sockaddr*)&serverClient, sizeof(serverClient));
-    
-    printf("Recibi una conexione en %d", client);
-    close(socket_id);
-   
+    printf("[+] Listen");
+
+    for(;;){
+
+        socket_client = accept(socket_server,(struct sockaddr*)&server_client, sizeof(server_client));
+        if(socket_client < 0){
+            perror("[ERROR] Socket client");
+        }
+
+        TCPClient(socket_client);
+    }
 
     return(0); 
+}
+
+
+
+void TCPClient( int socket_client){
+    
+    char buffer[30]={0};
+    int msg = 0;
+
+    msg = recv(socket_client, buffer, sizeof(buffer), 0);
+    if (msg < 0){
+        perror("[ERROR] Receive");
+    }
+    printf("[+] Receive");
+
+    while (msg > 0)
+    {
+        if (send(socket_client, buffer, sizeof(buffer),0) != msg){
+            perror("[ERROR] Send failed ");
+        }
+         
+        msg = recv(socket_client, buffer, sizeof(buffer), 0);
+        if (msg < 0){
+            perror("[ERROR] Receive");
+        }   
+    }
+    
+    close(socket_client);
+
 }
