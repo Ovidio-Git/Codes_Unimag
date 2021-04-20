@@ -36,9 +36,9 @@ int main(){
        
 
     // Server parameters   
-    serverr.sin_family      = AF_INET ;  // protocol
-    serverr.sin_addr.s_addr = inet_addr("127.0.0.1"); // server ip
-    serverr.sin_port        = htons(19900); // connection port
+    server_server.sin_family      = AF_INET ;  // protocol
+    server_server.sin_addr.s_addr = htonl(INADDR_ANY); // server ip
+    server_server.sin_port        = htons(19900); // connection port
     // htons(port number) convert to 6 bit format
     // the funtion bind merge socket with serverr
 
@@ -64,7 +64,7 @@ int main(){
         if(socket_client < 0){
             perror("[ERROR] Socket client");
         }
-
+        // printf("conecction client %s \n", inet_ntoa(server_client.sin_addr));
         TCPClient(socket_client);
     }
 
@@ -73,12 +73,12 @@ int main(){
 
 
 
-void TCPClient( int socket_client){
+void TCPClient( int socket_c){
     
     char buffer[30]={0};
     int msg = 0;
 
-    msg = recv(socket_client, buffer, sizeof(buffer), 0);
+    msg = recv(socket_c, buffer, sizeof(buffer), 0);
     if (msg < 0){
         perror("[ERROR] Receive");
     }
@@ -86,16 +86,16 @@ void TCPClient( int socket_client){
 
     while (msg > 0)
     {
-        if (send(socket_client, buffer, sizeof(buffer),0) != msg){
+        if (send(socket_c, buffer, sizeof(buffer),0) != msg){
             perror("[ERROR] Send failed ");
         }
          
-        msg = recv(socket_client, buffer, sizeof(buffer), 0);
+        msg = recv(socket_c, buffer, sizeof(buffer), 0);
         if (msg < 0){
             perror("[ERROR] Receive");
-        }   
+        }
+        printf("%s", buffer);   
     }
-    
-    close(socket_client);
+    close(socket_c);
 
 }

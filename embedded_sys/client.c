@@ -30,7 +30,7 @@ int main(){
     // Server parameters   AWS IP Public= 18.222.148.97
     struct sockaddr_in serverc;
     serverc.sin_family = AF_INET ;  // protocol
-    serverc.sin_addr.s_addr = inet_addr("18.222.148.97"); // server ip
+    serverc.sin_addr.s_addr = inet_addr("127.0.0.1"); // server ip
     serverc.sin_port = htons(19900); // connection port
     // htons(port number) convert to 6 bit format 
     
