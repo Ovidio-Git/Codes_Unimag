@@ -17,7 +17,6 @@ Steps for TCP server communication
 
 #define  MAXPENDING 2  // queue max connection permited 
 
-void TCPClient( int socket_client);
 
 int main(){
     
