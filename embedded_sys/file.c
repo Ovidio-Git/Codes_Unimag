@@ -5,9 +5,10 @@ int main(){
     char *ptrContent = NULL;
     long filesize = 0;
     FILE* ptrfile = NULL;
+    char file[]="./index.html";
 
     // Open file
-    ptrfile = fopen("./index.html", "r");
+    ptrfile = fopen(file, "r");
     if (ptrfile == NULL){
         printf("[ERROR] File not found\n\r");
         return (-1);

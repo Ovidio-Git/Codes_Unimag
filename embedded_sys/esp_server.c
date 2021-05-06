@@ -7,6 +7,37 @@
 #define  MAXPENDING 2  //  queue max connection permited
 
 
+void render(char file[],int socket){
+
+    // Website templates files
+    char *ptrContent = NULL;
+    long filesize = 0;
+    FILE* ptrfile = NULL;
+
+    // Open file
+    ptrfile = fopen(file, "r");
+    if (ptrfile == NULL){
+        printf("[ERROR] File not found\n\r");
+        return (-1);
+    }
+    printf("[+] File found\n\r");
+
+    //  File size
+    fseek(ptrfile, 0L, SEEK_END); // go end file
+    filesize = ftell(ptrfile);
+    fseek(ptrfile, 0L, SEEK_SET); // go start file
+    printf("File size [%ld] bytes\n\r", filesize); // print file size
+
+    ptrContent = (char*) malloc(filesize);    // reserving memory
+    fread(ptrContent, 1, filesize, ptrfile);  // reading file content
+    send(socket, ptrContent, filesize, 0);  // sending website file
+    for(int i=0; i<100000000; i++); // delay for testing
+    close(socket); // close client socket
+    free(ptrContent);   // freeing memory
+    fclose(ptrfile);    // close file
+}
+
+
 int main(){
 
     // server variables
@@ -17,12 +48,6 @@ int main(){
     char buffer[100] = {0};
     struct sockaddr_in server_server;
     struct sockaddr_in server_client;
-
-    // Website files
-    char *ptrContent = NULL;
-    long filesize = 0;
-    FILE* ptrfile = NULL;
-
 
     // create socket sever
     socket_server = socket(PF_INET, SOCK_STREAM, 0);
@@ -63,34 +88,16 @@ int main(){
 
         // print data
         while(recv(socket_client, buffer, sizeof(buffer),0) > 0){
-            if (strncmp("GET", buffer, 3) == 0) // compare get request or post request
+            if (strncmp("GET / ", buffer, 6) == 0) // compare get request or post request
             {
-                // Open file
-                ptrfile = fopen("./index.html", "r");
-                if (ptrfile == NULL){
-                    printf("[ERROR] File not found\n\r");
-                    return (-1);
-                }
-                printf("[+] File found\n\r");
-
-                //  File size
-                fseek(ptrfile, 0L, SEEK_END); // go end file
-                filesize = ftell(ptrfile);
-                fseek(ptrfile, 0L, SEEK_SET); // go start file
-                printf("File size [%ld] bytes\n\r", filesize); // print file size
-
-                ptrContent = (char*) malloc(filesize);    // reserving memory
-                fread(ptrContent, 1, filesize, ptrfile);  // reading file content
-                send(socket_client, ptrContent, filesize, 0);  // sending website file
-                for(int i=0; i<100000000; i++); // delay for testing
-                close(socket_client); // close client socket
-                free(ptrContent);   // freeing memory
-                fclose(ptrfile);    // close file
+                render("./index.html", socket_client);
             }
-            printf("%s", buffer);
+            else if (strncmp("GET /test", buffer, 9) == 0){
+                render("./dashboard.html", socket_client);
+            }
+
         }
     }
-
 
     // closed sockets
     close(socket_server);

@@ -1,0 +1,11 @@
+body{
+    color:black;
+    background-color:white;
+    background-image:url("https://i.pinimg.com/originals/c0/c0/74/c0c0740f706db794fab7533d7b218ac0.jpg");
+    background-repeat:no-repeat;
+    filter: blur(10px);
+    }
+
+img {
+        filter: blur(6px);
+    }
