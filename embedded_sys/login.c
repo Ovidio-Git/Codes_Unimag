@@ -16,11 +16,13 @@ int login(char username[], char password[]){
         // compare data with database
         if( (strcmp(username,userdb)==0) && (strcmp(password,passdb)==0) ){
             return 1;
-            break;
         }
         else{
             cur += 27;
             // return 0;
+        }
+        if (cur == fseek(database, cur, SEEK_END) ){
+            return 0;
         }
     }
     //close database
