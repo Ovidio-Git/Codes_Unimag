@@ -1,1 +1,4 @@
-josefo,1212
+User:admin Password:admin 
+User:andres Password:gonzales 
+User:josefo Password:andrade 
+

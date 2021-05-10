@@ -9,7 +9,7 @@
 
 int main(){
 
-    int port = 19901;
+    int port = 19900;
     // server variables
     int socket_server = 0;
     int socket_client = 0;
@@ -58,11 +58,14 @@ int main(){
         // create socket client
         socket_client = accept(socket_server,(struct sockaddr*)&server_client, &addr_length);
 
-        // print data
+        // send data
         while(recv(socket_client, buffer, sizeof(buffer),0) > 0){
 
             if (strncmp("GET / ", buffer, 6) == 0){
                 render("./index.html", socket_client);
+            }
+            else if (strncmp("GET /main.css", buffer, 13) == 0){
+                render("./main.css", socket_client);
             }
             else if (strncmp("POST", buffer, 4) == 0){
                 // search(buffer, "Username=");
