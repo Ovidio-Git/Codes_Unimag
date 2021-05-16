@@ -7,8 +7,7 @@ def request(url, sensor):
 	addr = socket.getaddrinfo(url, 80)[0][-1]
 	s = socket.socket()
 	s.connect(addr)
-	s.send(bytes('POST /metrics/%s HTTP/1.1\r\nContent-Type: multipart/form-data; boundary=---011000010111000001101001\r\nHost: pinogano2.mooo.com\r\n\r\n',(sensor,)))
-	print("e")
+	s.send(bytes('POST /metrics/%s HTTP/1.1\r\nContent-Type: multipart/form-data; boundary=---011000010111000001101001\r\nHost: pinogano2.mooo.com\r\n\r\n'% (sensor), 'utf8'))
 	while True:
 		data = s.recv(100)
 		if data:
@@ -32,7 +31,7 @@ def current():
 	pin = machine.Pin(2, machine.Pin.OUT)
 	pin.off()
 	adc = machine.ADC(0)
-	for _ in range(5):
+	for _ in range(3):
 		print(adc.read())
 		sleep(0.25)
 		if (adc.read() > 1020):
